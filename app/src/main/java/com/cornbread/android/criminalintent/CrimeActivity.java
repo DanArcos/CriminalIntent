@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-
+//Fragment Activity is support class
 public class CrimeActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
