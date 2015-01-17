@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 
 //Notice this fragment class takes from the support library!
@@ -49,6 +50,19 @@ public class CrimeFragment extends Fragment{
             @Override
             public void afterTextChanged(Editable s) {
                 //This one too
+            }
+        });
+
+        mDateButton = (Button) v.findViewById(R.id.crime_date);
+        mDateButton.setText(mCrime.getDate().toString());
+        mDateButton.setEnabled(false); //setEnabled - Enables/Disables buttons
+
+        mSolvedCheckBox = (CheckBox)v.findViewById(R.id.checkbox);
+        mSolvedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //Set the crime's solved property
+                mCrime.setSolved(isChecked); //If is checked = true, solved = true and vice versa
             }
         });
 
