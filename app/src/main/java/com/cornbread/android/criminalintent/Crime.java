@@ -7,8 +7,8 @@ import java.util.UUID;
 public class Crime {
     private UUID mId; //UUID are unique IDs to identify the crime object
     private String mTitle; //String to name crime object
-    private DateTime mDate;
-    private boolean mSolved;
+    private DateTime mDate; //Date that the crime occurred
+    private boolean mSolved; //Flag whether or not the crime has been solved
 
     public Crime(){
         //Generate Unique Identifier
