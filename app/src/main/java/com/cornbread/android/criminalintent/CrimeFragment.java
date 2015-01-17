@@ -8,12 +8,16 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 //Notice this fragment class takes from the support library!
 public class CrimeFragment extends Fragment{
     private Crime mCrime; //Crime object
     private EditText mTitleField;
+    private Button mDateButton;
+    private CheckBox mSolvedCheckBox;
 
     //This is a public function whereas Activity.onCreate is a protected
     //This must be public so that the activity (a different) can call it.
