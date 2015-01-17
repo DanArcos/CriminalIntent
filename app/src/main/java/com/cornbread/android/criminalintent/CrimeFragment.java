@@ -28,6 +28,7 @@ public class CrimeFragment extends Fragment{
         mCrime = new Crime();
     }
 
+
     //This function inflates the view
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup parent,
@@ -57,7 +58,8 @@ public class CrimeFragment extends Fragment{
         mDateButton.setText(mCrime.getDate().toString());
         mDateButton.setEnabled(false); //setEnabled - Enables/Disables buttons
 
-        mSolvedCheckBox = (CheckBox)v.findViewById(R.id.checkbox);
+
+        mSolvedCheckBox = (CheckBox)v.findViewById(R.id.crime_solved);
         mSolvedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
