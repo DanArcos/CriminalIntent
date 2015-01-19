@@ -13,6 +13,6 @@ public class CrimeListActivity extends SingleFragmentActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //All the fragment transaction code (SingleFragmentActivity) should precede this.
+        //All the fragment transaction code from SingleFragmentActivity precedes this comment.
     }
 }
