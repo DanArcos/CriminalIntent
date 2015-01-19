@@ -5,7 +5,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
+//Abstract class used to take care of fragment transactions already.
+//The only required by the user is to instantiate new Fragments
 public abstract class SingleFragmentActivity extends FragmentActivity{
+    protected abstract Fragment createFragment(); //Create new fragment
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
