@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
 public class CrimeListActivity extends SingleFragmentActivity{
     @Override
     protected Fragment createFragment() {
-        return new CrimeListFragment(); //We will attach CrimeListFragmen t to this host activity
+        return new CrimeListFragment(); //We will attach CrimeListFragment to this host activity
     }
 
     @Override
