@@ -10,4 +10,6 @@
     <string name="crime_solved_label">Solved?</string>
 
     <string name="action_settings">Settings</string>
+
+    <string name="crimes_title">Crimes</string>
 </resources>
