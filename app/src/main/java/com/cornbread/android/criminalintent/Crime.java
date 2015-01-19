@@ -18,6 +18,11 @@ public class Crime {
         mDate = new DateTime();
     }
 
+    @Override //Display title not object name
+    public String toString() {
+        return mTitle;
+    }
+
     //We only create a getter for the UUID
     public UUID getId(){
         return mId;
