@@ -6,8 +6,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -53,8 +56,17 @@ public class CrimeListFragment extends ListFragment{
             //Configure the view for this Crime
             Crime c = getItem(position);
 
+            //Set title UI widget
             TextView titleTextView = (TextView)convertView.findViewById(R.id.crime_list_item_titleTextView);
             titleTextView.setText(c.getTitle());
+
+            //Set Date UI textView widget
+            TextView dateTextView = (TextView)convertView.findViewById(R.id.crime_list_item_dateTextView);
+            dateTextView.setText(c.formatDate());
+
+            //Set Checkbox UI widget
+            CheckBox solvedCheckBox = (CheckBox)convertView.findViewById(R.id.crime_list_item_solvedCheckBox);
+            solvedCheckBox.setChecked(c.isSolved());
 
             return convertView;
         }
