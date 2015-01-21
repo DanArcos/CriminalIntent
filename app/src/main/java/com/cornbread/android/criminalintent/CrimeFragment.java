@@ -29,8 +29,11 @@ public class CrimeFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //mCrime = new Crime();
-        UUID crimeId = (UUID)getActivity().getIntent().getSerializableExtra(EXTRA_CRIME_ID);
+
+        // 1. mCrime = new Crime();
+        // 2. UUID crimeId = (UUID)getActivity().getIntent().getSerializableExtra(EXTRA_CRIME_ID);
+        UUID crimeId = (UUID)getArguments().getSerializable(EXTRA_CRIME_ID);
+
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
     }
 
@@ -42,6 +45,7 @@ public class CrimeFragment extends Fragment{
 
         View v = inflater.inflate(R.layout.fragment_crime, parent, false);
 
+        //Code for EditText widget
         mTitleField = (EditText) v.findViewById(R.id.crime_title);
         mTitleField.setText(mCrime.getTitle());
         mTitleField.addTextChangedListener(new TextWatcher() {
@@ -61,11 +65,12 @@ public class CrimeFragment extends Fragment{
             }
         });
 
+        //Code for DateButton Widget
         mDateButton = (Button) v.findViewById(R.id.crime_date);
         mDateButton.setText(mCrime.formatDate());
         mDateButton.setEnabled(false); //setEnabled - Enables/Disables buttons
 
-
+        //Code for CheckBox Widget
         mSolvedCheckBox = (CheckBox)v.findViewById(R.id.crime_solved);
         mSolvedCheckBox.setChecked(mCrime.isSolved());
         mSolvedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -77,5 +82,15 @@ public class CrimeFragment extends Fragment{
         });
 
         return v;
+    }
+
+    public static CrimeFragment newInstance(UUID crimeId){
+        Bundle args = new Bundle(); //Create Bundle
+        args.putSerializable(EXTRA_CRIME_ID, crimeId); //Put away arguments
+
+        CrimeFragment fragment = new CrimeFragment(); //Create fragment
+
+        fragment.setArguments(args); //set arguments
+        return fragment;
     }
 }
