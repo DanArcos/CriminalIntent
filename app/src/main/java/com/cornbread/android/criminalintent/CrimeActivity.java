@@ -13,7 +13,7 @@ public class CrimeActivity extends SingleFragmentActivity {
     protected Fragment createFragment() {
         //return new CrimeFragment(); //We will attach CrimeFragment to this host activity
 
-        //Retrieve the intent at the activity level
+        //Retrieve the intent at the activity level. Only this communicates with the other activity.
         UUID crimeId = (UUID)getIntent().getSerializableExtra(CrimeFragment.EXTRA_CRIME_ID); //Retrieve ID from CrimeListFragment
 
         //Pass down intent info to fragment. The fragment never communicates with the hosting activity. This way it can be reused with other hosting activities.

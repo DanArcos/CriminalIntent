@@ -32,6 +32,8 @@ public class CrimeFragment extends Fragment{
 
         // 1. mCrime = new Crime();
         // 2. UUID crimeId = (UUID)getActivity().getIntent().getSerializableExtra(EXTRA_CRIME_ID);
+
+        //Retrieve arguments from new instance created. Notice: this does not communicate with the hosting activity.
         UUID crimeId = (UUID)getArguments().getSerializable(EXTRA_CRIME_ID);
 
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
@@ -84,6 +86,8 @@ public class CrimeFragment extends Fragment{
         return v;
     }
 
+    //Add newInstance method to maintain encapsulation of fragment.
+    //There is no communication with the hosting activity here
     public static CrimeFragment newInstance(UUID crimeId){
         Bundle args = new Bundle(); //Create Bundle
         args.putSerializable(EXTRA_CRIME_ID, crimeId); //Put away arguments
