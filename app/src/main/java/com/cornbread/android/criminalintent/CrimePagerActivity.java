@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.Menu;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -39,6 +40,26 @@ public class CrimePagerActivity extends FragmentActivity{
             }
         });
 
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener(){
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Crime crime = mCrimes.get(position);
+                if(crime.getTitle() != null){
+                    setTitle(crime.getTitle());
+                }
+            }
+        });
+
         //Get ID of item that was clicked
         UUID crimeId = (UUID)getIntent().getSerializableExtra(CrimeFragment.EXTRA_CRIME_ID);
         for(int i = 0; i < mCrimes.size(); i++){
@@ -47,5 +68,11 @@ public class CrimePagerActivity extends FragmentActivity{
                 break;
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_crime_pager, menu);
+        return true;
     }
 }
