@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class CrimePagerActivity extends FragmentActivity{
     private ViewPager mViewPager;
@@ -37,5 +38,14 @@ public class CrimePagerActivity extends FragmentActivity{
                 return CrimeFragment.newInstance(crime.getId()); //Uses crimeId to fetch a crime and return a proper fragment
             }
         });
+
+        //Get ID of item that was clicked
+        UUID crimeId = (UUID)getIntent().getSerializableExtra(CrimeFragment.EXTRA_CRIME_ID);
+        for(int i = 0; i < mCrimes.size(); i++){
+            if(mCrimes.get(i).getId().equals(crimeId)){
+                mViewPager.setCurrentItem(i); //Set page of crime that was clicked
+                break;
+            }
+        }
     }
 }
