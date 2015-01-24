@@ -10,5 +10,8 @@ public class CrimePagerActivity extends FragmentActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mViewPager = new ViewPager(this); //Instantiate the ViewPager object
+        mViewPager.setId(R.id.viewPager); //Attach Id to ViewPager
+        setContentView(mViewPager); // "Inflate" layout
     }
 }
