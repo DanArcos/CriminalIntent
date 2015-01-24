@@ -77,7 +77,7 @@ public class CrimeListFragment extends ListFragment{
         }
     }
 
-    @Override
+    @Override //We override onResume() and not onstart since we aren't sure that onStart will get called
     public void onResume() {
         super.onResume();
         ((CrimeAdapter)getListAdapter()).notifyDataSetChanged();
