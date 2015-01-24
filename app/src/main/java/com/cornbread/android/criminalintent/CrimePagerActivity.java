@@ -43,12 +43,12 @@ public class CrimePagerActivity extends FragmentActivity{
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener(){
             @Override
             public void onPageScrollStateChanged(int state) {
-
+                //This tells whether page is being dragged, idle, or settling
             }
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+                //Tells you where page is going to be
             }
 
             @Override
