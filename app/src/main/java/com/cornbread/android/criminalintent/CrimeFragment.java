@@ -19,7 +19,9 @@ import java.util.UUID;
 //Notice this fragment class takes from the support library!
 public class CrimeFragment extends Fragment{
     public static final String EXTRA_CRIME_ID = "com.cornbread.android.criminalintent.crime_id";
-    public static final String DIALOG_DATE = "date";
+
+    private static final String DIALOG_DATE = "date";
+    private static final int REQUEST_DATE = 0;
 
     private Crime mCrime; //Crime object
     private EditText mTitleField;
@@ -78,6 +80,7 @@ public class CrimeFragment extends Fragment{
             public void onClick(View v) {
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 DatePickerFragment dialog = new DatePickerFragment().newInstance(mCrime.getDate());
+                dialog.setTargetFragment(CrimeFragment.this, REQUEST_DATE);
                 dialog.show(fm, DIALOG_DATE); //The Fragment Manager needs to be called to manage the dialog there
             }
         });
