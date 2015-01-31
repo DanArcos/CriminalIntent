@@ -47,6 +47,9 @@ public class CrimeFragment extends Fragment{
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
     }
 
+    private void updateDate(){
+        mDateButton.setText(mCrime.formatDate());
+    }
 
     //This function inflates the view
     @Override
@@ -77,7 +80,7 @@ public class CrimeFragment extends Fragment{
 
         //Code for DateButton Widget
         mDateButton = (Button) v.findViewById(R.id.crime_date);
-        mDateButton.setText(mCrime.formatDate());
+        updateDate();
         //mDateButton.setEnabled(false); //setEnabled - Enables/Disables buttons
         mDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,7 +124,7 @@ public class CrimeFragment extends Fragment{
         if(requestCode == REQUEST_DATE){
             DateTime date = (DateTime)data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
             mCrime.setDate(date);
-            mDateButton.setText(mCrime.formatDate());
+            updateDate();
         }
     }
 }
