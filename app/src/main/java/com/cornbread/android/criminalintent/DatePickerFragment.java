@@ -12,15 +12,16 @@ import android.view.View;
 import android.widget.DatePicker;
 
 import org.joda.time.DateTime;
+import org.joda.time.MutableDateTime;
 
 import java.util.GregorianCalendar;
 
 //A second fragment that will be managed by CrimePagerActivity
 public class DatePickerFragment extends DialogFragment{
     public static final String EXTRA_DATE = "com.cornbread.android.criminalintent.date"; //String to help store intent extras
-    private DateTime mDate; // Date which we will use to store the value of the date info
+    private MutableDateTime mDate; // Date which we will use to store the value of the date info
 
-    public static DatePickerFragment newInstance(DateTime date){
+    public static DatePickerFragment newInstance(MutableDateTime date){
         Bundle args = new Bundle();
         args.putSerializable(EXTRA_DATE, date); //Put away date info as key value pairing
 
@@ -43,7 +44,7 @@ public class DatePickerFragment extends DialogFragment{
     //a dialog is not the same as a fragment
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        mDate = (DateTime)getArguments().getSerializable(EXTRA_DATE); //Retrieve DateTime info
+        mDate = (MutableDateTime)getArguments().getSerializable(EXTRA_DATE); //Retrieve DateTime info
 
         //We must pull out the following so that we ca properly intitialize the datePicker
         int year = mDate.getYear();
@@ -56,7 +57,7 @@ public class DatePickerFragment extends DialogFragment{
         datePicker.init(year, month, day, new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                mDate = new DateTime(new GregorianCalendar(year, monthOfYear, dayOfMonth)); //Use selected date to create new mDate
+                mDate = new MutableDateTime(new GregorianCalendar(year, monthOfYear, dayOfMonth)); //Use selected date to create new mDate
 
                 //Update argument to preserve selected value on rotation
                 getArguments().putSerializable(EXTRA_DATE, mDate);

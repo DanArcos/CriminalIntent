@@ -1,6 +1,7 @@
 package com.cornbread.android.criminalintent;
 
 import org.joda.time.DateTime;
+import org.joda.time.MutableDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -9,13 +10,13 @@ import java.util.UUID;
 public class Crime {
     private UUID mId; //UUID are unique IDs to identify the crime object
     private String mTitle; //String to name crime object
-    private DateTime mDate; //Date that the crime occurred
+    private MutableDateTime mDate; //Date that the crime occurred
     private boolean mSolved; //Flag whether or not the crime has been solved
 
     public Crime(){
         //Generate Unique Identifier
         mId = UUID.randomUUID();
-        mDate = new DateTime();
+        mDate = new MutableDateTime();
     }
 
     @Override //Display title not object name
@@ -38,11 +39,11 @@ public class Crime {
         mTitle = title;
     }
 
-    public DateTime getDate(){
+    public MutableDateTime getDate(){
         return mDate;
     }
 
-    public void setDate (DateTime date){
+    public void setDate (MutableDateTime date){
         mDate = date;
     }
 
@@ -54,14 +55,6 @@ public class Crime {
         dateOutput += getDate().getYear();
 
         return dateOutput;
-    }
-
-    public boolean isSolved(){
-        return mSolved;
-    }
-
-    public void setSolved(boolean solved){
-        mSolved = solved;
     }
 
     public String formatDayOfWeek(int day){
@@ -86,6 +79,14 @@ public class Crime {
                 break;
         }
         return weekDay;
+    }
+
+    public boolean isSolved(){
+        return mSolved;
+    }
+
+    public void setSolved(boolean solved){
+        mSolved = solved;
     }
 
     public String formatMonthOfYear(int month){
@@ -121,5 +122,16 @@ public class Crime {
         }
 
         return monthOfYear;
+    }
+
+    public String getTime(){
+        int hour = mDate.getHourOfDay();
+        int minute = mDate.getMinuteOfHour();
+
+        if(minute < 10){
+            return hour + ":0" + minute;
+        }
+        else {return hour + ":" + minute;}
+
     }
 }
