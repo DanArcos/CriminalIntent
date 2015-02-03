@@ -14,4 +14,8 @@
     <string name="crimes_title">Crimes</string>
     <string name="date_picker_title">Date of Crime:</string>
     <string name="time_picker_title">Time of Crime:</string>
+    <string name="dialog_chooser_title">What Do You Want to Update?</string>
+    <string name="dialog_chooser_date">Date</string>
+    <string name="dialog_chooser_time">Time</string>
+
 </resources>

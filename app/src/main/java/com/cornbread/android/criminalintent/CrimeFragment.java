@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
@@ -27,13 +28,18 @@ public class CrimeFragment extends Fragment{
 
     private static final String DIALOG_DATE = "date";
     private static final String DIALOG_TIME = "time";
+    private static final String DIALOG_CHOOSE = "choose";
+
     private static final int REQUEST_DATE = 0;
     private static final int REQUEST_TIME = 1;
 
+    private static final int REQUEST_CHOICE = 2;
+    private static final int CHOICE_DATE = 1;
+    private static final int CHOICE_TIME = 2;
+
     private Crime mCrime; //Crime object
     private EditText mTitleField;
-    private Button mDateButton;
-    private Button mTimeButton;
+    private Button mChooseDialogButton;
     private CheckBox mSolvedCheckBox;
 
     //This is a public function whereas Activity.onCreate is a protected
@@ -51,13 +57,7 @@ public class CrimeFragment extends Fragment{
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
     }
 
-    private void updateDate(){
-        mDateButton.setText(mCrime.formatDate());
-    }
-
-    private void updateTime(){
-        mTimeButton.setText(mCrime.getTime());
-    }
+    private void updateDateTime(){ mChooseDialogButton.setText( "Time: "+ mCrime.getTime()+". " + mCrime.formatDate()+".");}
 
     //This function inflates the view
     @Override
@@ -86,30 +86,16 @@ public class CrimeFragment extends Fragment{
             }
         });
 
-        //////////////////////Code for DateButton Widget
-        mDateButton = (Button) v.findViewById(R.id.crime_date);
-        updateDate();
-        //mDateButton.setEnabled(false); //setEnabled - Enables/Disables buttons
-        mDateButton.setOnClickListener(new View.OnClickListener() {
+        //Choose Dialog Button
+        mChooseDialogButton = (Button)v.findViewById(R.id.choose_dialog);
+        updateDateTime();
+        mChooseDialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager fm = getActivity().getSupportFragmentManager();
-                DatePickerFragment dialog = new DatePickerFragment().newInstance(mCrime.getDate());
-                dialog.setTargetFragment(CrimeFragment.this, REQUEST_DATE);
-                dialog.show(fm, DIALOG_DATE); //The Fragment Manager needs to be called to manage the dialog there
-            }
-        });
-
-        //////////////////////Code for TimeButton Widget
-        mTimeButton = (Button) v.findViewById(R.id.crime_time);
-        mTimeButton.setText(mCrime.getTime());
-        mTimeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                TimePickerFragment dialog = new TimePickerFragment().newInstance(mCrime.getDate());
-                dialog.setTargetFragment(CrimeFragment.this, REQUEST_TIME);
-                dialog.show(fm, DIALOG_TIME);
+                ChooseDialogFragment dialog = new ChooseDialogFragment();
+                dialog.setTargetFragment(CrimeFragment.this, REQUEST_CHOICE);
+                dialog.show(fm, DIALOG_CHOOSE);
             }
         });
 
@@ -144,14 +130,35 @@ public class CrimeFragment extends Fragment{
         if (resultCode != Activity.RESULT_OK) return;
         if(requestCode == REQUEST_DATE){
             MutableDateTime date = (MutableDateTime)data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
-            mCrime.setDate(date);
-            updateDate();
+            mCrime.getDate().setYear(date.getYear());
+            mCrime.getDate().setMonthOfYear(date.getMonthOfYear());
+            mCrime.getDate().setDayOfMonth(date.getDayOfMonth());
+            updateDateTime();
         }
 
         if(requestCode == REQUEST_TIME){
             MutableDateTime date = (MutableDateTime)data.getSerializableExtra(TimePickerFragment.EXTRA_TIME);
-            mCrime.setDate(date);
-            updateTime();
+            mCrime.getDate().setHourOfDay(date.getHourOfDay());
+            mCrime.getDate().setMinuteOfHour(date.getMinuteOfHour());
+            updateDateTime();
+        }
+
+        if(requestCode == REQUEST_CHOICE){
+            Integer choice = data.getIntExtra(ChooseDialogFragment.EXTRA_CHOICE,0);
+            if(choice == CHOICE_DATE){
+                //Start DatePickerFragment
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                DatePickerFragment dialog = new DatePickerFragment().newInstance(mCrime.getDate());
+                dialog.setTargetFragment(CrimeFragment.this, REQUEST_DATE);
+                dialog.show(fm, DIALOG_DATE);
+            }
+            else if(choice == CHOICE_TIME){
+                //Start TimePickerFragment
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                TimePickerFragment dialog = new TimePickerFragment().newInstance(mCrime.getDate());
+                dialog.setTargetFragment(CrimeFragment.this, REQUEST_TIME);
+                dialog.show(fm, DIALOG_TIME);
+            }
         }
     }
 }
