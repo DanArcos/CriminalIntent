@@ -143,6 +143,7 @@ public class CrimeFragment extends Fragment{
             updateDateTime();
         }
 
+        //This will be fired after the first dialog is closed
         if(requestCode == REQUEST_CHOICE){
             Integer choice = data.getIntExtra(ChooseDialogFragment.EXTRA_CHOICE,0);
             if(choice == CHOICE_DATE){
