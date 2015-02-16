@@ -16,13 +16,14 @@ public class CrimeLab {
         mAppContext = appContext;
         mCrimes = new ArrayList<Crime>();
 
+        /*
         //Generate 100 dummy crimes for data
         for(int i = 0; i < 100; i++){
             Crime c = new Crime();
             c.setTitle("Crime # "+i);
             c.setSolved(i%2==0); //Every other crime will be solved
             mCrimes.add(c); //Add to array list
-        }
+        }*/
     }
 
     /*  Think of this like a "CrimeLab getCrimeLab()" type of method.
