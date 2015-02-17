@@ -2,13 +2,16 @@ package com.cornbread.android.criminalintent;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -55,6 +58,8 @@ public class CrimeFragment extends Fragment{
         UUID crimeId = (UUID)getArguments().getSerializable(EXTRA_CRIME_ID);
 
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
+
+        setHasOptionsMenu(true);
     }
 
     private void updateDateTime(){ mChooseDialogButton.setText( "Time: "+ mCrime.getTime()+". " + mCrime.formatDate()+".");}
@@ -65,6 +70,13 @@ public class CrimeFragment extends Fragment{
                              @Nullable Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_crime, parent, false);
+
+        //Enable Up Button if current android version is greater than gingerbread
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB){
+            if(NavUtils.getParentActivityName(getActivity())!= null){
+                getActivity().getActionBar().setDisplayHomeAsUpEnabled(true); //Enable Up Button
+            }
+        }
 
         //Code for EditText widget
         mTitleField = (EditText) v.findViewById(R.id.crime_title);
@@ -161,5 +173,20 @@ public class CrimeFragment extends Fragment{
                 dialog.show(fm, DIALOG_TIME);
             }
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                if(NavUtils.getParentActivityName(getActivity()) != null){
+                    NavUtils.navigateUpFromSameTask(getActivity());
+                }
+                return true; //Return true to indicate that no processing is necessary
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
     }
 }

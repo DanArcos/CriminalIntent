@@ -24,7 +24,7 @@ public class CrimeListFragment extends ListFragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true); //Add Options Menu
+        setHasOptionsMenu(true); //Add Options Menu at the top
 
         getActivity().setTitle(R.string.crimes_title);
 
@@ -92,6 +92,7 @@ public class CrimeListFragment extends ListFragment{
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+        //Inflate menu from resource credit
         inflater.inflate(R.menu.fragment_crime_list, menu);
     }
 
@@ -107,6 +108,7 @@ public class CrimeListFragment extends ListFragment{
                 startActivityForResult(i,0);
 
                 return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }

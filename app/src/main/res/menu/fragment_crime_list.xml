@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- This item will add a new crime to the array list when pressed -->
     <item android:id="@+id/menu_item_new_crime"
         android:icon="@android:drawable/ic_menu_add"
         android:title="@string/new_crime"
