@@ -1,9 +1,11 @@
 package com.cornbread.android.criminalintent;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,6 +22,7 @@ public class CrimeListFragment extends ListFragment{
     private static final String TAG = "CrimeListFragment";
 
     private ArrayList<Crime> mCrimes;
+    private boolean mSubtitleVisible;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,23 @@ public class CrimeListFragment extends ListFragment{
         //ArrayAdapter<Crime> adapter = new ArrayAdapter<Crime>(getActivity(),android.R.layout.simple_list_item_1,mCrimes);
         CrimeAdapter adapter = new CrimeAdapter(mCrimes);
         setListAdapter(adapter);
+
+        setRetainInstance(true);
+        mSubtitleVisible = false; //Set false as default value since subtitle will not be visible on launch
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = super.onCreateView(inflater, container, savedInstanceState);
+
+        //If honeycomb or above and subtitle visible when onCreateView called -> set subtitle to subtitle string
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB){
+            if(mSubtitleVisible){
+                getActivity().getActionBar().setSubtitle(R.string.subtitle);
+            }
+        }
+
+        return v;
     }
 
     @Override
@@ -94,30 +114,39 @@ public class CrimeListFragment extends ListFragment{
         super.onCreateOptionsMenu(menu, inflater);
         //Inflate menu from resource credit
         inflater.inflate(R.menu.fragment_crime_list, menu);
+        MenuItem showSubtitle = menu.findItem(R.id.menu_item_show_subtitle);
+        if(mSubtitleVisible && showSubtitle != null){
+            //Boolean is true and showSubtitle Menu item exists -> set string to hide subtitle string
+            showSubtitle.setTitle(R.string.hide_subtitle);
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
+            //If newCrime menu item hit, add a new crime
             case R.id.menu_item_new_crime:
                 Crime crime = new Crime();
                 CrimeLab.get(getActivity()).addCrimes(crime);
 
                 Intent i = new Intent(getActivity(), CrimePagerActivity.class); //Intent to load activity with new Crime
                 i.putExtra(CrimeFragment.EXTRA_CRIME_ID, crime.getId());
-                startActivityForResult(i,0);
+                startActivityForResult(i,0); //??WHY??
 
                 return true;
 
+            //When you click the subtitle menu item...
             case R.id.menu_item_show_subtitle:
+                //If no subtitle
                 if(getActivity().getActionBar().getSubtitle() == null){
-                    getActivity().getActionBar().setSubtitle(R.string.subtitle);
-                    item.setTitle(R.string.hide_subtitle);
-                } else {
-                    getActivity().getActionBar().setSubtitle(null);
-                    item.setTitle(R.string.show_subtitle);
+                    getActivity().getActionBar().setSubtitle(R.string.subtitle); //Set subtitle
+                    mSubtitleVisible = true; //Change flag
+                    item.setTitle(R.string.hide_subtitle); //Change menu item text
+                } else { //If subtitle
+                    getActivity().getActionBar().setSubtitle(null); //Take away subtitle
+                    mSubtitleVisible = false; //Change flag
+                    item.setTitle(R.string.show_subtitle); //Change menu item text
                 }
-
                 return true;
 
             default:
