@@ -27,6 +27,7 @@ public class Crime {
         mDate = new MutableDateTime();
     }
 
+    //New constructor to pass json object
     public Crime(JSONObject json) throws JSONException{
         mId = UUID.fromString(json.getString(JSON_ID));
         if(json.has(JSON_TITLE)){
