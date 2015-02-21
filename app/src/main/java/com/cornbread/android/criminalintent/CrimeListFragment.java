@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -160,7 +159,7 @@ public class CrimeListFragment extends ListFragment{
 
     public void addNewCrime(){
         Crime crime = new Crime();
-        CrimeLab.get(getActivity()).addCrimes(crime);
+        CrimeLab.get(getActivity()).addCrime(crime);
 
         Intent i = new Intent(getActivity(), CrimePagerActivity.class); //Intent to load activity with new Crime
         i.putExtra(CrimeFragment.EXTRA_CRIME_ID, crime.getId());
