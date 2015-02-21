@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -47,7 +48,15 @@ public class CrimeListFragment extends ListFragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = super.onCreateView(inflater, container, savedInstanceState);
+        View v = inflater.inflate(R.layout.fragment_crime_list, container, false);
+
+        Button mAddCrime = (Button)v.findViewById(R.id.add_crime_button);
+        mAddCrime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addNewCrime();
+            }
+        });
 
         //If honeycomb or above and subtitle visible when onCreateView called -> set subtitle to subtitle string
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB){
@@ -124,15 +133,10 @@ public class CrimeListFragment extends ListFragment{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
+
             //If newCrime menu item hit, add a new crime
             case R.id.menu_item_new_crime:
-                Crime crime = new Crime();
-                CrimeLab.get(getActivity()).addCrimes(crime);
-
-                Intent i = new Intent(getActivity(), CrimePagerActivity.class); //Intent to load activity with new Crime
-                i.putExtra(CrimeFragment.EXTRA_CRIME_ID, crime.getId());
-                startActivityForResult(i,0); //??WHY??
-
+                addNewCrime(); //??WHY??
                 return true;
 
             //When you click the subtitle menu item...
@@ -152,5 +156,14 @@ public class CrimeListFragment extends ListFragment{
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void addNewCrime(){
+        Crime crime = new Crime();
+        CrimeLab.get(getActivity()).addCrimes(crime);
+
+        Intent i = new Intent(getActivity(), CrimePagerActivity.class); //Intent to load activity with new Crime
+        i.putExtra(CrimeFragment.EXTRA_CRIME_ID, crime.getId());
+        startActivityForResult(i,0);
     }
 }
