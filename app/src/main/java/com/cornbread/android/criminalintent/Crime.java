@@ -7,6 +7,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.UUID;
 
 public class Crime {
@@ -24,6 +25,15 @@ public class Crime {
         //Generate Unique Identifier
         mId = UUID.randomUUID();
         mDate = new MutableDateTime();
+    }
+
+    public Crime(JSONObject json) throws JSONException{
+        mId = UUID.fromString(json.getString(JSON_ID));
+        if(json.has(JSON_TITLE)){
+            mTitle = json.getString(JSON_TITLE);
+        }
+        mSolved = json.getBoolean(JSON_SOLVED);
+        mDate = new MutableDateTime(json.getLong(JSON_DATE));
     }
 
     public JSONObject toJSON() throws JSONException{
