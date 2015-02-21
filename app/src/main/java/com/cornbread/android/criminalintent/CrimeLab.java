@@ -55,7 +55,7 @@ public class CrimeLab {
         mCrimes.add(c);
     }
 
-    public boolean saveCrime(){
+    public boolean saveCrimes(){
         try{
             mSerializer.saveCrimes(mCrimes);
             Log.d(TAG, "crimes saved to file");

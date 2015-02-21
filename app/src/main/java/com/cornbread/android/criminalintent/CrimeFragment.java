@@ -18,9 +18,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
 
 import java.util.UUID;
@@ -188,5 +186,11 @@ public class CrimeFragment extends Fragment{
                 return super.onOptionsItemSelected(item);
         }
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        CrimeLab.get(getActivity()).saveCrimes();
     }
 }
