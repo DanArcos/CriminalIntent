@@ -4,10 +4,17 @@ import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.UUID;
 
 public class Crime {
+    private static final String JSON_ID = "id";
+    private static final String JSON_TITLE = "title";
+    private static final String JSON_SOLVED = "solved";
+    private static final String JSON_DATE = "date";
+
     private UUID mId; //UUID are unique IDs to identify the crime object
     private String mTitle; //String to name crime object
     private MutableDateTime mDate; //Date that the crime occurred
@@ -17,6 +24,15 @@ public class Crime {
         //Generate Unique Identifier
         mId = UUID.randomUUID();
         mDate = new MutableDateTime();
+    }
+
+    public JSONObject toJSON() throws JSONException{
+        JSONObject json = new JSONObject();
+        json.put(JSON_ID, mId.toString());
+        json.put(JSON_TITLE, mTitle);
+        json.put(JSON_SOLVED, mSolved);
+        json.put(JSON_DATE, mDate);
+        return json;
     }
 
     @Override //Display title not object name
