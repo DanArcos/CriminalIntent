@@ -34,7 +34,7 @@ public class Crime {
             mTitle = json.getString(JSON_TITLE);
         }
         mSolved = json.getBoolean(JSON_SOLVED);
-        mDate = new MutableDateTime(json.getLong(JSON_DATE));
+        mDate = new MutableDateTime(json.getString(JSON_DATE));
     }
 
     public JSONObject toJSON() throws JSONException{
