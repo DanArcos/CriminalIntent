@@ -55,11 +55,6 @@ public class CrimeLab {
         return null;
     }
 
-    public void addCrime(Crime c){
-        //Add a new crime to the crime list array
-        mCrimes.add(c);
-    }
-
     public boolean saveCrimes(){
         try{
             mSerializer.saveCrimes(mCrimes);
@@ -69,5 +64,14 @@ public class CrimeLab {
             Log.e(TAG, "Error saving crimes: ", e);
             return false;
         }
+    }
+
+    public void addCrime(Crime c){
+        //Add a new crime to the crime list array
+        mCrimes.add(c);
+    }
+
+    public void deleteCrime(Crime c){
+        mCrimes.remove(c);
     }
 }
