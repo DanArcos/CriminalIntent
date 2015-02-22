@@ -22,8 +22,17 @@ public class CrimeLab {
 
     private CrimeLab (Context appContext){
         mAppContext = appContext;
-        mCrimes = new ArrayList<Crime>();
         mSerializer = new CriminalIntentJSONSerializer(mAppContext, FILENAME);
+
+        //Try to load crimes from file system
+        try{
+            mCrimes = mSerializer.loadCrimes();
+            Log.d(TAG, "Crimes loaded successfully");
+        } catch (Exception e){
+            //If No crimes exist in file system create new array list.
+            mCrimes = new ArrayList<Crime>();
+            Log.e(TAG, "ERROR Loading crimes: ", e);
+        }
     }
 
     /*  Think of this like a "CrimeLab getCrimeLab()" type of method.
