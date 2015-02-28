@@ -239,6 +239,7 @@ public class CrimeListFragment extends ListFragment{
             case R.id.menu_item_delete_crime:
                 CrimeLab.get(getActivity()).deleteCrime(crime);
                 adapter.notifyDataSetChanged();
+
                 return true;
         }
 
@@ -256,8 +257,8 @@ public class CrimeListFragment extends ListFragment{
 
     @Override //We override onResume() and not onstart since we aren't sure that onStart will get called
     public void onPause() {
-        super.onPause();
         CrimeLab.get(getActivity()).saveCrimes();
+        super.onPause();
     }
 
     @Override
