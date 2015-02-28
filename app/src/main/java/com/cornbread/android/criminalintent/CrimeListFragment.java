@@ -121,6 +121,7 @@ public class CrimeListFragment extends ListFragment{
                             mode.finish();
                             adapter.notifyDataSetChanged();
                             return true;
+
                         default:
                             return false;
                     }
@@ -178,12 +179,6 @@ public class CrimeListFragment extends ListFragment{
 
             return convertView;
         }
-    }
-
-    @Override //We override onResume() and not onstart since we aren't sure that onStart will get called
-    public void onResume() {
-        super.onResume();
-        ((CrimeAdapter)getListAdapter()).notifyDataSetChanged();
     }
 
     @Override
@@ -258,4 +253,17 @@ public class CrimeListFragment extends ListFragment{
         i.putExtra(CrimeFragment.EXTRA_CRIME_ID, crime.getId());
         startActivityForResult(i,0);
     }
+
+    @Override //We override onResume() and not onstart since we aren't sure that onStart will get called
+    public void onPause() {
+        super.onPause();
+        CrimeLab.get(getActivity()).saveCrimes();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((CrimeAdapter)getListAdapter()).notifyDataSetChanged();
+    }
+
 }

@@ -11,6 +11,8 @@ import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -174,6 +176,18 @@ public class CrimeFragment extends Fragment{
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        CrimeLab.get(getActivity()).saveCrimes();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_crime, menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
@@ -182,15 +196,16 @@ public class CrimeFragment extends Fragment{
                 }
                 return true; //Return true to indicate that no processing is necessary
 
+            case R.id.menu_item_detaildelete_crime:
+                CrimeLab.get(getActivity()).deleteCrime(mCrime);
+                NavUtils.navigateUpFromSameTask(getActivity());
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
 
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        CrimeLab.get(getActivity()).saveCrimes();
-    }
+
 }
