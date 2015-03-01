@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import java.io.IOException;
+import java.util.List;
 
 public class CrimeCameraFragment extends Fragment {
     private static final String TAG = "CrimeCameraFragment";
@@ -45,7 +46,7 @@ public class CrimeCameraFragment extends Fragment {
                 //Tell Camera to use this surface as its preview area
                 try{
                     if(mCamera != null){
-                        mCamera.setPreviewDisplay(holder);
+                        mCamera.setPreviewDisplay(holder); //Connect camera with Surface
                     }
                 } catch (IOException exception){
                     Log.e(TAG, "Error setting up preview display", exception);
@@ -54,6 +55,8 @@ public class CrimeCameraFragment extends Fragment {
 
             @Override
             public void surfaceDestroyed(SurfaceHolder holder) {
+                //This method stops drawing frames
+
                 //We can no longer display on this surface so stop the preview
                 if(mCamera != null){
                     mCamera.stopPreview();
@@ -62,12 +65,14 @@ public class CrimeCameraFragment extends Fragment {
 
             @Override
             public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+                //This method will begin to draw frames on the Surface
+
                 //We can no longer display on this surface, so stop the preview
                 if(mCamera == null) return;
 
                 //The surface has changed size; update the camera preview size
                 android.hardware.Camera.Parameters parameters = mCamera.getParameters();
-                android.hardware.Camera.Size s = null; //To be reset
+                android.hardware.Camera.Size s = getBestSupportedSize(parameters.getSupportedPreviewSizes(),width, height); //Obtain best supported size for camera screen
                 parameters.setPreviewSize(s.width, s.height);
                 mCamera.setParameters(parameters);
                 try{
@@ -102,5 +107,21 @@ public class CrimeCameraFragment extends Fragment {
             mCamera.release();
             mCamera = null;
         }
+    }
+
+    /** A simple algorithm to get the largest size available. For a more
+     * robust version, see CameraPreview.java in the ApiDemos
+     * sample app from Android. */
+    private android.hardware.Camera.Size getBestSupportedSize(List<android.hardware.Camera.Size> sizes, int width, int height) {
+        android.hardware.Camera.Size bestSize = sizes.get(0);
+        int largestArea = bestSize.width * bestSize.height;
+        for (android.hardware.Camera.Size s : sizes) {
+            int area = s.width * s.height;
+            if (area > largestArea) {
+                bestSize = s;
+                largestArea = area;
+            }
+        }
+        return bestSize;
     }
 }
