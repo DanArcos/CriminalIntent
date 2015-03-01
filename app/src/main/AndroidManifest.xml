@@ -13,6 +13,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
         <activity
             android:name=".CrimeListActivity">
             <intent-filter>
@@ -36,7 +37,6 @@
             android:name=".CrimeCameraActivity"
             android:screenOrientation="landscape"
             android:label="@string/app_name">
-
         </activity>
 
     </application>
