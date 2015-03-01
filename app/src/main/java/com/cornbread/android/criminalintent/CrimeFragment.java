@@ -2,6 +2,8 @@ package com.cornbread.android.criminalintent;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,6 +22,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import org.joda.time.MutableDateTime;
 
@@ -44,6 +47,8 @@ public class CrimeFragment extends Fragment{
     private EditText mTitleField;
     private Button mChooseDialogButton;
     private CheckBox mSolvedCheckBox;
+
+    private ImageButton mPhotoButton;
 
     //This is a public function whereas Activity.onCreate is a protected
     //This must be public so that the activity (a different) can call it.
@@ -121,6 +126,24 @@ public class CrimeFragment extends Fragment{
                 mCrime.setSolved(isChecked); //If is checked = true, solved = true and vice versa
             }
         });
+
+        mPhotoButton = (ImageButton)v.findViewById(R.id.crime_imageButton);
+        mPhotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), CrimeCameraActivity.class);
+                startActivity(i);
+            }
+        });
+
+        //If camera not available, disable camera functionality
+        PackageManager pm = getActivity().getPackageManager();
+        boolean hasACamera = pm.hasSystemFeature(PackageManager.FEATURE_CAMERA)||
+                             pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_FRONT)||
+                             (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD && Camera.getNumberOfCameras() > 0);
+        if(!hasACamera){
+            mPhotoButton.setEnabled(false);
+        }
 
         return v;
     }
