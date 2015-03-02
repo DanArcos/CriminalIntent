@@ -27,8 +27,8 @@ public class CrimeCameraFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_crime_camera, container, false);
 
-        mProgressContainer = v.findViewById(R.id.crime_camera_progressContainer);
-        mProgressContainer.setVisibility(View.INVISIBLE);
+        mProgressContainer = v.findViewById(R.id.crime_camera_progressContainer); //Tie progressBar widget to activity
+        mProgressContainer.setVisibility(View.INVISIBLE); //Set visibility to invisible
 
         Button takePictureButton = (Button) v.findViewById(R.id.crime_camera_takePictureButton);
         takePictureButton.setOnClickListener(new View.OnClickListener() {
