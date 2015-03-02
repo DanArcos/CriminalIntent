@@ -1,9 +1,6 @@
 package com.cornbread.android.criminalintent;
 
 import android.annotation.TargetApi;
-import android.content.Intent;
-import android.graphics.Camera;
-import android.hardware.camera2.CameraDevice;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,7 +12,6 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,10 +21,14 @@ public class CrimeCameraFragment extends Fragment {
 
     private android.hardware.Camera mCamera; //Camera object
     private SurfaceView mSurfaceView;
+    private View mProgressContainer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_crime_camera, container, false);
+
+        mProgressContainer = v.findViewById(R.id.crime_camera_progressContainer);
+        mProgressContainer.setVisibility(View.INVISIBLE);
 
         Button takePictureButton = (Button) v.findViewById(R.id.crime_camera_takePictureButton);
         takePictureButton.setOnClickListener(new View.OnClickListener() {
