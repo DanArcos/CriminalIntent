@@ -1,6 +1,8 @@
 package com.cornbread.android.criminalintent;
 
 import android.annotation.TargetApi;
+import android.content.Context;
+import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,8 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 public class CrimeCameraFragment extends Fragment {
     private static final String TAG = "CrimeCameraFragment";
@@ -22,6 +26,48 @@ public class CrimeCameraFragment extends Fragment {
     private android.hardware.Camera mCamera; //Camera object
     private SurfaceView mSurfaceView;
     private View mProgressContainer;
+
+    //Called after picture is taken but before raw data is available
+    private Camera.ShutterCallback mShutterCallback = new Camera.ShutterCallback(){
+        @Override
+        public void onShutter() {
+            //Display the progress indicator
+            mProgressContainer.setVisibility(View.VISIBLE);
+        }
+    };
+
+    //Called when raw picture data is made available
+    private Camera.PictureCallback mJpegCallback = new Camera.PictureCallback(){
+        @Override
+        public void onPictureTaken(byte[] data, Camera camera) {
+            //Create a filename
+            String filename = UUID.randomUUID().toString()+".jpg";
+            //Save jpeg to disk
+            FileOutputStream os = null;
+            boolean success = true;
+
+            try{
+                os = getActivity().openFileOutput(filename, Context.MODE_PRIVATE);
+                os.write(data);
+            } catch (Exception e){
+                Log.e(TAG, "Error writing to file " + filename, e);
+                success = false;
+            } finally {
+                try{
+                    if(os != null)
+                        os.close();
+                } catch (Exception e) {
+                    Log.e(TAG, "Error closing file " + filename, e);
+                    success = false;
+                }
+            }
+
+            if(success){
+                Log.i(TAG, "JPEG saved at " + filename);
+            }
+            getActivity().finish();
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
