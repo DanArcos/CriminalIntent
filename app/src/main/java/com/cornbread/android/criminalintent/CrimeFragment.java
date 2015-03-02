@@ -43,6 +43,8 @@ public class CrimeFragment extends Fragment{
     private static final int CHOICE_DATE = 1;
     private static final int CHOICE_TIME = 2;
 
+    private static final int REQUEST_PHOT0 = 1;
+
     private Crime mCrime; //Crime object
     private EditText mTitleField;
     private Button mChooseDialogButton;
@@ -132,7 +134,7 @@ public class CrimeFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), CrimeCameraActivity.class);
-                startActivity(i);
+                startActivityForResult(i , REQUEST_PHOT0); //Start Activity for result
             }
         });
 
