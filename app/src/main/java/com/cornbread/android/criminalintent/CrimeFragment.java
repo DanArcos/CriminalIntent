@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,6 +31,8 @@ import java.util.UUID;
 
 //Notice this fragment class takes from the support library!
 public class CrimeFragment extends Fragment{
+    private static final String TAG = "CrimeFragment";
+
     public static final String EXTRA_CRIME_ID = "com.cornbread.android.criminalintent.crime_id";
 
     private static final String DIALOG_DATE = "date";
@@ -37,13 +40,13 @@ public class CrimeFragment extends Fragment{
     private static final String DIALOG_CHOOSE = "choose";
 
     private static final int REQUEST_DATE = 0;
-    private static final int REQUEST_TIME = 1;
+    private static final int REQUEST_TIME = 1; //This is no longer used
 
     private static final int REQUEST_CHOICE = 2;
     private static final int CHOICE_DATE = 1;
     private static final int CHOICE_TIME = 2;
 
-    private static final int REQUEST_PHOT0 = 1;
+    private static final int REQUEST_PHOT0 = 3;
 
     private Crime mCrime; //Crime object
     private EditText mTitleField;
@@ -134,7 +137,7 @@ public class CrimeFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), CrimeCameraActivity.class);
-                startActivityForResult(i , REQUEST_PHOT0); //Start Activity for result
+                startActivityForResult(i, REQUEST_PHOT0); //Start Activity for result
             }
         });
 
@@ -165,7 +168,7 @@ public class CrimeFragment extends Fragment{
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != Activity.RESULT_OK) return;
-        if(requestCode == REQUEST_DATE){
+        else if(requestCode == REQUEST_DATE){
             MutableDateTime date = (MutableDateTime)data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
             mCrime.getDate().setYear(date.getYear());
             mCrime.getDate().setMonthOfYear(date.getMonthOfYear());
@@ -173,15 +176,14 @@ public class CrimeFragment extends Fragment{
             updateDateTime();
         }
 
-        if(requestCode == REQUEST_TIME){
+        else if(requestCode == REQUEST_TIME){
             MutableDateTime date = (MutableDateTime)data.getSerializableExtra(TimePickerFragment.EXTRA_TIME);
             mCrime.getDate().setHourOfDay(date.getHourOfDay());
             mCrime.getDate().setMinuteOfHour(date.getMinuteOfHour());
             updateDateTime();
         }
-
         //This will be fired after the first dialog is closed
-        if(requestCode == REQUEST_CHOICE){
+        else if(requestCode == REQUEST_CHOICE){
             Integer choice = data.getIntExtra(ChooseDialogFragment.EXTRA_CHOICE,0);
             if(choice == CHOICE_DATE){
                 //Start DatePickerFragment
@@ -196,6 +198,14 @@ public class CrimeFragment extends Fragment{
                 TimePickerFragment dialog = new TimePickerFragment().newInstance(mCrime.getDate());
                 dialog.setTargetFragment(CrimeFragment.this, REQUEST_TIME);
                 dialog.show(fm, DIALOG_TIME);
+            }
+        }
+
+        else if (requestCode == REQUEST_PHOT0){
+            //Create a new Photo object and attach it to the crime
+            String filename = data.getStringExtra(CrimeCameraFragment.EXTRA_PHOTO_FILENAME);
+            if(filename != null){
+                Log.i(TAG, "filename: " + filename);
             }
         }
     }
