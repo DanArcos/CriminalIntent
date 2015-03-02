@@ -15,10 +15,12 @@ public class Crime {
     private static final String JSON_TITLE = "title";
     private static final String JSON_SOLVED = "solved";
     private static final String JSON_DATE = "date";
+    private static final String JSON_PHOTO = "photo";
 
     private UUID mId; //UUID are unique IDs to identify the crime object
     private String mTitle; //String to name crime object
     private MutableDateTime mDate; //Date that the crime occurred
+    private Photo mPhoto;
     private boolean mSolved; //Flag whether or not the crime has been solved
 
     public Crime(){
@@ -35,6 +37,10 @@ public class Crime {
         }
         mSolved = json.getBoolean(JSON_SOLVED);
         mDate = new MutableDateTime(json.getString(JSON_DATE));
+
+        if(json.has(JSON_PHOTO)){
+            mPhoto = new Photo(json.getJSONObject(JSON_PHOTO));
+        }
     }
 
     public JSONObject toJSON() throws JSONException{
@@ -43,6 +49,9 @@ public class Crime {
         json.put(JSON_TITLE, mTitle);
         json.put(JSON_SOLVED, mSolved);
         json.put(JSON_DATE, mDate);
+        if(mPhoto != null){
+            json.put(JSON_PHOTO, mPhoto.toJSON());
+        }
         return json;
     }
 
@@ -160,5 +169,13 @@ public class Crime {
         }
         else {return hour + ":" + minute;}
 
+    }
+
+    public Photo getPhoto(){
+        return mPhoto;
+    }
+
+    public void setPhoto(Photo p){
+        mPhoto = p;
     }
 }
