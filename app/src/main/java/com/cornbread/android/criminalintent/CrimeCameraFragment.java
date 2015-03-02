@@ -80,7 +80,10 @@ public class CrimeCameraFragment extends Fragment {
         takePictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().finish(); //Simply finishes hosting activity this will be updated.
+                if(mCamera != null){
+                    mCamera.takePicture(mShutterCallback, null, mJpegCallback); //three callbacks required
+                }
+
             }
         });
 
