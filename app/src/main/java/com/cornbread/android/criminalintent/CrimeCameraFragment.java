@@ -125,6 +125,7 @@ public class CrimeCameraFragment extends Fragment {
                 android.hardware.Camera.Parameters parameters = mCamera.getParameters();
                 android.hardware.Camera.Size s = getBestSupportedSize(parameters.getSupportedPreviewSizes(),width, height); //Obtain best supported size for camera screen
                 parameters.setPreviewSize(s.width, s.height);
+                parameters.setPictureSize(s.width, s.height);
                 mCamera.setParameters(parameters);
                 try{
                     mCamera.startPreview();
